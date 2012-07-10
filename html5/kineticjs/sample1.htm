@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html />
+<html>
+<head>
+    <title>Sample 1</title>
+    <script src="kinetic-v3.8.4.min.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var stage, layer;
+        $(function () {
+            stage = new Kinetic.Stage("container", 400, 400);
+            layer = new Kinetic.Layer();
+            stage.add(layer);
+
+            layer.add(rect);
+            stage.draw();
+        });
+    </script>
+    <style>
+        canvas
+        {
+            background-color: #afafaf;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+    </div>
+</body>
+</html>

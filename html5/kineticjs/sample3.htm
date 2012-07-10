@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html />
+<html>
+<head>
+    <title>Sample 3 - shapes</title>
+    <link rel='stylesheet' href='default.css' type='text/css' media='all' />
+    <script src="kinetic-v3.8.4.min.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var stage, layer;
+        var context;
+
+        $(function () {
+            stage = new Kinetic.Stage("container", 400, 400);
+            layer = new Kinetic.Layer();
+            stage.add(layer);
+
+            var rect = new Kinetic.Star({
+                x: 100,
+                y: 75,
+                outerRadius: 40,
+                innerRadius: 10,
+                points: 8,
+                stroke: "#fff",
+                strokeWidth: 2,
+                fill: "#33ff44"
+            });
+            layer.add(rect);
+
+            stage.draw();
+        });
+    </script>
+    <style>
+        canvas {
+            background-color: #afafaf;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div id="links"><a href="sample1.htm">Previous sample</a> | <a href="samples.htm">List
+            of all samples </a>| <a href="sample3.htm">Next sample</a></div>
+        <div id="container">
+        </div>
+    </div>
+</body>
+</html>
