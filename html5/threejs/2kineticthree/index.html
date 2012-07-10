@@ -2,10 +2,29 @@
 <html>
 <head>
     <title>three.js and kineticjs</title>
+	<style>
+	#container {
+		margin: 0 auto;
+		border: 1px solid black;
+		box-shadow: 10px 10px 5px #888;
+		width: 700px;
+		height: 700px;
+	}
+	#main {
+		margin: 0 auto;
+		width: 700px;
+	}
+	body {
+		background-color: #eee;
+	}
+	</style>
 </head>
 <body>
+	<div id="main">
+	<p>Click on the "toggle animation" button to toggle animation or drag the other button.</p>
     <div id="container">
     </div>
+	</div>
 
     <script src="../js/kinetic-v3.8.4.min.js"></script>
     <script src="../js/Three.js"></script>
@@ -15,6 +34,7 @@
         var camera, scene, renderer, geometry, material, mesh;
         // kineticjs
         var stage, layer3D, layerGUI;
+		var animating = true;
         
         function init() {
             stage = new Kinetic.Stage("container", 700, 700);
@@ -34,17 +54,57 @@
             renderer = new THREE.CanvasRenderer({canvas: layer3D.getCanvas()});
             renderer.setSize(700, 700);
 			
+			var group = new Kinetic.Group({draggable: true});
 			layerGUI = new Kinetic.Layer();
-			layerGUI.add(new Kinetic.Rect(
+			var rect = new Kinetic.Rect(
 			{
-				x: 100,
-				y: 100,
+				x: 0,
+				y: 0,
 				width:100,
-				height:100,
+				height:40,
 				stroke: "black",
 				strokeWidth: 4,
-				draggable: true
-			}));
+				fill: "#444444"
+			});
+			var text = new Kinetic.Text(
+			{
+				x: 25,
+				y: 12,
+				text: "drag me",
+				fontSize: 12,
+				fontFamily: "Calibri",
+				textFill: "white"
+			});
+			group.add(rect);
+			group.add(text);
+			
+			var toggleAnim = new Kinetic.Text(
+			{
+				x: 200,
+				y: 12,
+				text: "toggle animation",
+				fontSize: 12,
+				fontFamily: "Calibri",
+				textFill: "white",
+				fill: "#888",
+				padding: 12,
+				width: 80,
+				cornerRadius: 5,
+				shadow: {
+					color: "black",
+					blur: 1,
+					offset: [10, 10],
+					alpha: 0.7
+				},
+				stroke: '#555',
+				strokeWidth: 2
+			});
+			toggleAnim.on("click", function() {
+				animating = !animating;
+			});
+			layerGUI.add(toggleAnim);
+			
+			layerGUI.add(group);
 			
             stage.add(layer3D);
 			stage.add(layerGUI);
@@ -57,12 +117,13 @@
         }
 
         function render() {
-            mesh.rotation.x += 0.01;
-            mesh.rotation.y += 0.02;
+			if (animating) {
+				mesh.rotation.x += 0.01;
+				mesh.rotation.y += 0.02;
+			}
 
-            renderer.render(scene, camera);
-
-            layerGUI.draw();
+renderer.render(scene, camera);
+layerGUI.draw();
         }
 
         $(function () {
