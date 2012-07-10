@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>three.js and kineticjs</title>
+</head>
+<body>
+    <div id="container">
+    </div>
+
+    <script src="../js/kinetic-v3.8.4.min.js"></script>
+    <script src="../js/Three.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>
+        // threejs
+        var camera, scene, renderer, geometry, material, mesh;
+        // kineticjs
+        var stage, layer3D, layerGUI;
+        
+        function init() {
+            stage = new Kinetic.Stage("container", 700, 700);
+            layer3D = new Kinetic.Layer();
+            scene = new THREE.Scene();
+
+            camera = new THREE.PerspectiveCamera(75, 600 / 600, 1, 10000);
+            camera.position.z = 1000;
+            scene.add(camera);
+
+            geometry = new THREE.CubeGeometry(200, 200, 200);
+            material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
+
+            mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            renderer = new THREE.CanvasRenderer({canvas: layer3D.getCanvas()});
+            renderer.setSize(700, 700);
+			
+			layerGUI = new Kinetic.Layer();
+			layerGUI.add(new Kinetic.Rect(
+			{
+				x: 100,
+				y: 100,
+				width:100,
+				height:100,
+				stroke: "black",
+				strokeWidth: 4,
+				draggable: true
+			}));
+			
+            stage.add(layer3D);
+			stage.add(layerGUI);
+        }
+
+        function animate() {
+            // note: three.js includes requestAnimationFrame shim
+            requestAnimationFrame(animate);
+            render();
+        }
+
+        function render() {
+            mesh.rotation.x += 0.01;
+            mesh.rotation.y += 0.02;
+
+            renderer.render(scene, camera);
+
+            layerGUI.draw();
+        }
+
+        $(function () {
+            init();
+            animate();
+        });
+    </script>
+</body>
+</html>
